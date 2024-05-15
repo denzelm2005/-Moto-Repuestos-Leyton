@@ -1,0 +1,94 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Modelo;
+
+import Modelo.Conexion.Conexion;
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.List;
+import java.sql.Date;
+import java.time.LocalDateTime;
+/**
+
+/**
+ *
+ * @author admin
+ */
+public class DAOCliente {
+    
+    Conexion conectar=Conexion.getIntance();
+        
+    public List ObtenerDatos () throws SQLException {
+        
+        String proced = "sp_LeerDatosCliente()";
+        List<Map> registros = new Database().Listar(proced);
+        List<Cliente> clientes = new ArrayList();
+        
+        for (Map registro : registros){
+            Cliente aut = new Cliente((int)registro.get("ID_Cliente"),
+                    (String) registro.get("Cédula"),
+                    (String) registro.get("Nombre"),
+                    (String) registro.get("Apellidos"),
+                    (String) registro.get("Teléfono"));
+            clientes.add(aut);
+        }
+        return clientes;
+    }
+    
+     public int Insertar (Cliente aut)throws SQLException{
+        try{
+            CallableStatement st=conectar.conectar().
+                    prepareCall("{CALL sp_InsertarDatosCliente(?,?,?,?)}");
+            st.setString(1, aut.getCédula());
+            st.setString(2, aut.getNombre());
+            st.setString(3, aut.getApelllidos());
+            st.setString(4, aut.getTeléfono());
+            st.executeUpdate();
+            
+        }catch (SQLException e){
+            System.out.println(e+" Error ");
+            conectar.cerrarConexion();
+            return -1;
+        }
+        conectar.cerrarConexion();
+        return 0;
+    }
+     public int Actualizar(Cliente aut) throws SQLException{
+         try{
+            CallableStatement st=conectar.conectar().
+                    prepareCall("{CALL sp_ModificarDatosCliente(?,?,?,?,?)}");
+            st.setInt(1,aut.getID_Cliente());
+            st.setString(2, aut.getCédula());
+            st.setString(3,aut.getNombre());
+            st.setString(4, aut.getApelllidos());
+            st.setString(5, aut.getTeléfono());
+          st.executeUpdate();
+        }catch (SQLException e){
+            System.out.println(e+" Error ");
+            conectar.cerrarConexion();
+            return -1;
+        }
+        conectar.cerrarConexion();
+        return 0;
+}
+     public  int Eliminar (int id) throws SQLException {
+        try{
+            
+            CallableStatement st=conectar.conectar().
+                    prepareCall("{CALL sp_BorrarDatosCliente(?)}");
+            st.setInt(1, id);
+            st.executeUpdate();
+            
+        }catch (SQLException e){
+            System.out.println(e+" Error ");
+            conectar.cerrarConexion();
+            return -1;
+        }
+        conectar.conectar();
+        return 0;
+    }
+}
