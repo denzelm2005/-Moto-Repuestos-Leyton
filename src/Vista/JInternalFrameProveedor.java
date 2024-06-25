@@ -6,6 +6,7 @@ package Vista;
 import Modelo.Proveedor;
 import Modelo.DAOProveedor;
 import Modelo.DAOProveedor;
+import Modelo.Database;
 import Modelo.Proveedor;
 import javax.swing.JOptionPane;
 import java.awt.Color;
@@ -21,6 +22,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Map;
 /**
  *
  * @author admin
@@ -46,6 +49,45 @@ public class JInternalFrameProveedor extends javax.swing.JInternalFrame {
           }
         jTableProveedor.setModel(modelo);   
     } 
+ 
+  public void actualizarInterfaProveedor (List<Proveedor> Proveed) {
+        DefaultTableModel modelo = new DefaultTableModel();
+      
+      String[] columnas = {"ID_Prov","Nombre","Empresa","Teléfono"};
+        modelo.setColumnIdentifiers(columnas);
+        for (Proveedor provedo :Proveed ){
+          String[]  renglon = {Integer.toString(provedo.getID_Prov()),
+         provedo.getNombre(),provedo.getEmpresa(),provedo.getTeléfono() };
+          modelo.addRow(renglon);
+        }
+       jTableProveedor.setModel(modelo);
+    }
+ 
+ private void buscaDatosCliente(String dato) throws SQLException {
+        List<Proveedor> prove = new DAOProveedor().busquedaProveedor(dato);
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        String[] columnas = {"ID_Prov", "Nombre", "Empresa", "Teléfono",};
+        modelo.setColumnIdentifiers(columnas);
+        for (Proveedor PROV : prove) {
+            
+            String[] renglon = {Integer.toString(PROV.getID_Prov()),
+            PROV.getNombre(), PROV.getEmpresa(), PROV.getTeléfono()};
+            modelo.addRow(renglon);
+        }
+        jTableProveedor.setModel(modelo);
+        
+   jTableProveedor.setAutoResizeMode(jTableProveedor.AUTO_RESIZE_OFF);
+       var columnModel = jTableProveedor.getColumnModel();
+     columnModel.getColumn(0).setPreferredWidth(70); 
+     columnModel.getColumn(1).setPreferredWidth(140); 
+     columnModel.getColumn(2).setPreferredWidth(107); 
+     columnModel.getColumn(3).setPreferredWidth(120); 
+   
+  
+  
+    }
  
   public void  actualizarProveedor() throws SQLException {
      int  id = Integer.parseInt(this.jTextID_Prov.getText());
@@ -336,9 +378,30 @@ public class JInternalFrameProveedor extends javax.swing.JInternalFrame {
     private void jTextEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextEmpresaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextEmpresaActionPerformed
-
+  private boolean busquedaActivaProve = false;
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        // TODO add your handling code here:
+     String terminoBusqueda = jTextBuscar.getText().trim();
+    if (!terminoBusqueda.isEmpty()) {
+         try {
+             actualizarInterfaProveedor(new DAOProveedor().busquedaProveedor(terminoBusqueda));
+         } catch (SQLException ex) {
+             Logger.getLogger(JInternalFrameProveedor.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        busquedaActivaProve = true;
+    } else if (busquedaActivaProve) {
+         try {
+             actualizarInterfaProveedor(new DAOProveedor().ObtenerDatos());
+         } catch (SQLException ex) {
+             Logger.getLogger(JInternalFrameProveedor.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        busquedaActivaProve = false;
+    } else {
+        JOptionPane.showMessageDialog(null,
+                "Por favor, ingrese un término de búsqueda.",
+                "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }  
+
+
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed

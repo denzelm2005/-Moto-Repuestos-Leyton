@@ -36,4 +36,8 @@ public class Marca {
     public void setMarca(String Marca) {
         this.Marca = Marca;
     }
+    
+    public String toString () {
+    return ID_Marca + " - " + Marca;
+}
 }

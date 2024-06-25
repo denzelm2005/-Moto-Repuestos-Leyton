@@ -20,11 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.event.KeyEvent;
 
-
-/**
- *
- * @author admin
- */
 public class JInternalFrameCliente extends javax.swing.JInternalFrame {
 
     public JInternalFrameCliente() {
@@ -42,8 +37,41 @@ public class JInternalFrameCliente extends javax.swing.JInternalFrame {
              au.getNombre(), au.getApelllidos(), au.getTeléfono()};
              modelo.addRow(renglon);
           }
-        jTableClientes.setModel(modelo);   
+        jTableClientes.setModel(modelo); 
+        
+      
+        jTableClientes.setAutoResizeMode(jTableClientes.AUTO_RESIZE_OFF);
+       var columnModel = jTableClientes.getColumnModel();
+     columnModel.getColumn(0).setPreferredWidth(70); 
+     columnModel.getColumn(1).setPreferredWidth(140); 
+     columnModel.getColumn(2).setPreferredWidth(107); 
+     columnModel.getColumn(3).setPreferredWidth(107); 
+     columnModel.getColumn(4).setPreferredWidth(107); 
     } 
+    
+    public void actualizarInterfaCliente (List<Cliente> Clien) {
+        DefaultTableModel modelo = new DefaultTableModel();
+      
+      String[] columnas = {"ID_Cliente","Cédula","Nombre","Apelllidos","Teléfono"};
+        modelo.setColumnIdentifiers(columnas);
+        for (Cliente Client :Clien ){
+          String[]  renglon = {Integer.toString(Client.getID_Cliente()),
+         Client.getCédula(),Client.getNombre(),
+         Client.getApelllidos(),Client.getTeléfono()};
+          modelo.addRow(renglon);
+        }
+       jTableClientes.setModel(modelo);
+       
+       
+        jTableClientes.setAutoResizeMode(jTableClientes.AUTO_RESIZE_OFF);
+       var columnModel = jTableClientes.getColumnModel();
+     columnModel.getColumn(0).setPreferredWidth(70); 
+     columnModel.getColumn(1).setPreferredWidth(140); 
+     columnModel.getColumn(2).setPreferredWidth(107); 
+     columnModel.getColumn(3).setPreferredWidth(107); 
+     columnModel.getColumn(4).setPreferredWidth(107); 
+    }
+    
     
     public void  actualizarCliente() throws SQLException {
      int  id = Integer.parseInt(this.jTextID_Cliente.getText());
@@ -75,7 +103,33 @@ public class JInternalFrameCliente extends javax.swing.JInternalFrame {
         jTextCedula.setText("");
         jTextTelefono.setText("");
     }
+     private void buscaDatosCliente(String dato) throws SQLException {
+        List<Cliente> clientes = new DAOCliente().busquedaCliente(dato);
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        String[] columnas = {"id_cliente","Cedúla","Nombres","Apellidos",
+            "Teléfono"};
+        modelo.setColumnIdentifiers(columnas);
+        for (Cliente cli : clientes) {
+            
+            String[] renglon = {Integer.toString(cli.getID_Cliente()),
+            cli.getCédula(), cli.getNombre(), cli.getApelllidos(), cli.getTeléfono()};
+            modelo.addRow(renglon);
+        }
+        jTableClientes.setModel(modelo);
+        
     
+        jTableClientes.setAutoResizeMode(jTableClientes.AUTO_RESIZE_OFF);
+       var columnModel = jTableClientes.getColumnModel();
+     columnModel.getColumn(0).setPreferredWidth(70); 
+     columnModel.getColumn(1).setPreferredWidth(140); 
+     columnModel.getColumn(2).setPreferredWidth(107); 
+     columnModel.getColumn(3).setPreferredWidth(107); 
+     columnModel.getColumn(4).setPreferredWidth(107); 
+  
+  
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -226,12 +280,10 @@ public class JInternalFrameCliente extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel8)
-                    .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -241,20 +293,20 @@ public class JInternalFrameCliente extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(33, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel3)))
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel6))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextApellidos)
@@ -286,15 +338,11 @@ public class JInternalFrameCliente extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jTextApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 25, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextCedula)
-                        .addGap(18, 18, 18)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -303,15 +351,11 @@ public class JInternalFrameCliente extends javax.swing.JInternalFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
                             .addComponent(jTextTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(jLabel8)
-                                .addGap(24, 24, 24))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jButtonEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -443,9 +487,28 @@ public class JInternalFrameCliente extends javax.swing.JInternalFrame {
                    log(Level.SEVERE, null, ex);
        }
     }//GEN-LAST:event_jButtonGuardarActionPerformed
-
+private boolean busquedaActivaCliente = false;
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        // TODO add your handling code here:
+String terminoBusqueda = jTextBuscar.getText().trim();
+    if (!terminoBusqueda.isEmpty()) {
+         try {
+             actualizarInterfaCliente(new DAOCliente().busquedaCliente(terminoBusqueda));
+         } catch (SQLException ex) {
+             Logger.getLogger(JInternalFrameCliente.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        busquedaActivaCliente = true;
+    } else if (busquedaActivaCliente) {
+         try {
+             actualizarInterfaCliente(new DAOCliente().ObtenerDatos());
+         } catch (SQLException ex) {
+             Logger.getLogger(JInternalFrameCliente.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        busquedaActivaCliente = false;
+    } else {
+        JOptionPane.showMessageDialog(null,
+                "Por favor, ingrese un término de búsqueda.",
+                "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }  
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jTextNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextNombreKeyTyped
@@ -517,10 +580,7 @@ public class JInternalFrameCliente extends javax.swing.JInternalFrame {
                JOptionPane.showMessageDialog(rootPane, 
                        "¡Ocurrio un error!"+e.getMessage());
            }
-        }
-        
-                                         
-
+        }  
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed

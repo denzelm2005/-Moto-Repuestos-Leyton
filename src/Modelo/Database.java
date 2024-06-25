@@ -50,4 +50,51 @@ public class Database {
        }
        return filas;
     }
+    
+    public List<Map<String, Object>> listarClienteBusqueda(String procedimiento, String termino) {
+        ResultSet rs = null;
+        List<Map<String, Object>> resultados = new ArrayList<>();
+        try (CallableStatement statement = Conectar.conectar().prepareCall(procedimiento)) {
+            statement.setString(1, termino); // Configurar el parámetro de búsqueda
+            rs = statement.executeQuery();
+            resultados = OrganizarDatos(rs);
+        } catch (SQLException e) {
+            System.out.println("Error al realizar la búsqueda: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return resultados;
+
+}
+ public List<Map<String, Object>> listarAutoresConBusqueda(String procedimiento, String termino) {
+        ResultSet rs = null;
+        List<Map<String, Object>> resultados = new ArrayList<>();
+        try (CallableStatement statement = Conectar.conectar().prepareCall(procedimiento)) {
+            statement.setString(1, termino); // Configurar el parámetro de búsqueda
+            rs = statement.executeQuery();
+            resultados = OrganizarDatos(rs);
+        } catch (SQLException e) {
+            System.out.println("Error al realizar la búsqueda: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return resultados;
+ }
+ 
+    
+    
 }

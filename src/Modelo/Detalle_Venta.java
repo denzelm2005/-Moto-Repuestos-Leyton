@@ -14,10 +14,25 @@ public class Detalle_Venta {
     private int cantidad;
     private int ID_Producto;
     private int ID_Venta;
+    
+    public Detalle_Venta(int ID_Venta, float Precio_unitario, int cantidad, int ID_Producto) {
+        this.ID_Venta = ID_Venta;
+        this.Precio_unitario = Precio_unitario;
+        this.cantidad = cantidad;
+        this.ID_Producto = ID_Producto;
+    }
 
     public int getID_Detalle_venta() {
         return ID_Detalle_venta;
     }
+
+    public Detalle_Venta(float Precio_unitario, int cantidad, int ID_Producto) {
+        this.Precio_unitario = Precio_unitario;
+        this.cantidad = cantidad;
+        this.ID_Producto = ID_Producto;
+    }
+    
+    
 
     public void setID_Detalle_venta(int ID_Detalle_venta) {
         this.ID_Detalle_venta = ID_Detalle_venta;
@@ -69,6 +84,8 @@ public class Detalle_Venta {
         this.ID_Producto = ID_Producto;
         this.ID_Venta = ID_Venta;
     }
+    
+    
     
     
 }

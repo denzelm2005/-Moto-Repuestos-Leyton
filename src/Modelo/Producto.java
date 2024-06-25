@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Modelo;
-
+import Modelo.Marca;
 /**
  *
  * @author admin
@@ -13,25 +13,35 @@ public class Producto {
     private String Nombre;
     private String Modelo;
     private int Stock;
-    private float Precio;
+    private float Precio_Venta;
+    private float Precio_Compra;
     private int ID_Marca; 
 
-    public Producto(int ID_Producto, String Nombre, String Modelo, int Stock, float Precio, int ID_Marca) {
+    public Producto(int ID_Producto, String Nombre, String Modelo, int Stock, float Precio_Venta, float Precio_Compra, int ID_Marca) {
         this.ID_Producto = ID_Producto;
         this.Nombre = Nombre;
         this.Modelo = Modelo;
         this.Stock = Stock;
-        this.Precio = Precio;
+        this.Precio_Venta = Precio_Venta;
+        this.Precio_Compra = Precio_Compra;
         this.ID_Marca = ID_Marca;
     }
 
-    public Producto(String Nombre, String Modelo, int Stock, float Precio, int ID_Marca) {
+    public Producto(String Nombre, String Modelo, int Stock, float Precio_Venta, float Precio_Compra, int ID_Marca) {
         this.Nombre = Nombre;
         this.Modelo = Modelo;
         this.Stock = Stock;
-        this.Precio = Precio;
+        this.Precio_Venta = Precio_Venta;
+        this.Precio_Compra = Precio_Compra;
         this.ID_Marca = ID_Marca;
     }
+
+    public Producto(int ID_Producto, int Stock) {
+        this.ID_Producto = ID_Producto;
+        this.Stock = Stock;
+    }
+    
+    
 
     public int getID_Producto() {
         return ID_Producto;
@@ -65,12 +75,20 @@ public class Producto {
         this.Stock = Stock;
     }
 
-    public float getPrecio() {
-        return Precio;
+    public float getPrecio_Venta() {
+        return Precio_Venta;
     }
 
-    public void setPrecio(float Precio) {
-        this.Precio = Precio;
+    public void setPrecio_Venta(float Precio_Venta) {
+        this.Precio_Venta = Precio_Venta;
+    }
+
+    public float getPrecio_Compra() {
+        return Precio_Compra;
+    }
+
+    public void setPrecio_Compra(float Precio_Compra) {
+        this.Precio_Compra = Precio_Compra;
     }
 
     public int getID_Marca() {
@@ -81,6 +99,8 @@ public class Producto {
         this.ID_Marca = ID_Marca;
     }
 
- 
+
 }
+    
+
 
